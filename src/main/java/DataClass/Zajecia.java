@@ -1,3 +1,5 @@
+package DataClass;
+
 public class Zajecia {
     private Godzina rozpoczecie;
     private Godzina zakonczenie;

@@ -1,5 +1,4 @@
-import java.util.Scanner;
-import java.util.regex.Pattern;
+package DataClass;
 
 public class Godzina {
     private int godzina;

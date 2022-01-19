@@ -1,14 +1,22 @@
+package DataClass;
+
+import Backend.HtmlFile;
+import Backend.Sciezka;
+import lombok.Getter;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Przedmiot {
+@Getter
+
+public class Przedmiot implements Sciezka {
     private String nazwaPrzedmiotu;
     private String kodPrzedmiotu;
     private List<TypZajec> typyZajec;
     private float ECTS;
     private List<String> kierunekMSMP;
-    private String semestr; //"format: RRRRS" : R - rok S - semestr
+    private boolean ten_semestr;
 
     public static void main(String[] args){
         Przedmiot p = new Przedmiot("0000-SZD-ET-WAR9-EN", "2020Z");
@@ -19,7 +27,7 @@ public class Przedmiot {
         try {
             this.kodPrzedmiotu = kodPrzedmiotu;
             String url = "https://usosweb.uw.edu.pl/kontroler.php?_action=katalog2/przedmioty/pokazPrzedmiot&prz_kod=" + kodPrzedmiotu;
-            HtmlFile hf = new HtmlFile(url, "/home/adminq/GitHub/Playtime_is_over/PO/Ips_creator/src/main/Sources/przedmiot.html");
+            HtmlFile hf = new HtmlFile(url, pathToSrc + "/src/main/Sources/przedmiot.html");
 
             Scanner sc = new Scanner(hf.searchForOccurenceLineDelay("ECTS", 2));
             if (sc.hasNextFloat())
@@ -59,7 +67,7 @@ public class Przedmiot {
             first = true;
             System.out.println("Kod: " + kod);
             for(Integer grupa : zajeciaGrupy.get(kod)){
-                System.out.println("Grupa: " + grupa);
+                System.out.println("DataClass.Grupa: " + grupa);
                 if(first) {
                     tz = new TypZajec(kod, grupa);
                     first = false;
@@ -82,7 +90,7 @@ public class Przedmiot {
         ArrayList<String> list;
 
         try {
-            HtmlFile hf = new HtmlFile(url, "/home/adminq/GitHub/Playtime_is_over/PO/Ips_creator/src/main/Sources/plan.html");
+            HtmlFile hf = new HtmlFile(url, pathToSrc + "/src/main/Sources/plan.html");
             list = hf.searchForOccurences("https://usosweb.uw.edu.pl/kontroler.php[a-zA-Z0-9/=?&_]+gr_nr=\\d+", false);
             HashSet<Integer> kodyZajec = new HashSet<>();
             HashMap<Integer, HashSet<Integer>> kodyZajecOrazGrupy= new HashMap<>();

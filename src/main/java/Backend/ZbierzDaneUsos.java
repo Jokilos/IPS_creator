@@ -1,17 +1,19 @@
+package Backend;
+
+import DataClass.Przedmiot;
+import DataClass.WszystkiePrzedmioty;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import org.apache.sling.commons.json.JSONException;
 import org.apache.sling.commons.json.JSONObject;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.util.*;
-import java.util.zip.ZipEntry;
 
 
-public class ZbierzDaneUsos {
+public class ZbierzDaneUsos implements Sciezka{
     public static void main(String[] args){
-        //ZbierzRejestracje zb = new ZbierzRejestracje();
+        //Backend.ZbierzRejestracje zb = new Backend.ZbierzRejestracje();
         //zb.getClassCodes(zb.getRegistrationCodes());
         ArrayList<String> codes = codesFromFile();
         List<String> codesSorted = codes.subList(1, codes.size());
@@ -24,10 +26,10 @@ public class ZbierzDaneUsos {
 
     public static ArrayList<String> codesFromFile(){
         try {
-            File file = new File("/home/adminq/GitHub/Playtime_is_over/PO/Ips_creator/src/main/Sources/kodyPrzedmiotów");
+            File file = new File(pathToSrc + "/src/main/Sources/kodyPrzedmiotów");
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
-            ArrayList<String> codes = new ArrayList<String>();
+            ArrayList<String> codes = new ArrayList<>();
 
             for (int i = 1; (line = br.readLine()) != null; i++) {
                 codes.add(line.trim());
@@ -65,7 +67,7 @@ public class ZbierzDaneUsos {
 
         try{
             JSONObject preetyjson = new JSONObject(ja.toJson(wp));
-            BufferedWriter writer = new BufferedWriter(new FileWriter("/home/adminq/GitHub/Playtime_is_over/PO/Ips_creator/src/main/Sources/przedmioty/Baza.js"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(pathToSrc + "/src/main/Sources/przedmioty/Baza.js"));
             writer.write(preetyjson.toString(2));
             writer.close();
         }
@@ -78,7 +80,7 @@ public class ZbierzDaneUsos {
     public static ArrayList<String> getClassesCodes(){
         String url = "https://usosweb.mimuw.edu.pl/kontroler.php?_action=katalog2/przedmioty/szukajPrzedmiotu&method=rej&rej_kod=1000-2021-INF&callback=g_0c2fe8e2";
         try {
-            HtmlFile hf = new HtmlFile(url, "/home/adminq/GitHub/Playtime_is_over/PO/Ips_creator/src/main/Sources/kody.html");
+            HtmlFile hf = new HtmlFile(url, pathToSrc + "/src/main/Sources/kody.html");
             ArrayList<String> codes = hf.searchForOccurencesWithLineDelay("<td style='vertical-align:middle' >", 1);
 
             return codes;

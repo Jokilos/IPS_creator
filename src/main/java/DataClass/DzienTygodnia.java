@@ -1,3 +1,5 @@
+package DataClass;
+
 public enum DzienTygodnia {
     PONIEDZIALEK(1),
     WTOREK(2),

@@ -1,18 +1,24 @@
-import java.io.IOException;
+package DataClass;
+
+import Backend.HtmlFile;
+import Backend.Sciezka;
+import lombok.Getter;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
-public class TypZajec {
+@Getter
+public class TypZajec implements Sciezka {
     private List<Grupa> grupy;
     private int idZajec;
     private String typ;
+    public int iloscWybranychGrup;
 
     public TypZajec(){
     }
 
     public TypZajec(int idZajec, int grupa){
+        iloscWybranychGrup = 0;
         this.idZajec = idZajec;
         grupy = new ArrayList<>();
 
@@ -20,7 +26,7 @@ public class TypZajec {
                 + idZajec + "&gr_nr=" + grupa;
         try {
             HtmlFile hf = new HtmlFile(url,
-                    "/home/adminq/GitHub/Playtime_is_over/PO/Ips_creator/src/main/Sources/zajecia.html");
+                    pathToSrc + "/src/main/Sources/zajecia.html");
 
             //znalezienie typu np. Wykład lub Ćwiczenia
             String reg = ">([ " + hf.pl + "]+) gr.\\d+ - Plan zajęć";
@@ -43,7 +49,7 @@ public class TypZajec {
                 + idZajec + "&gr_nr=" + grupa;
         try {
             HtmlFile hf = new HtmlFile(url,
-                    "/home/adminq/GitHub/Playtime_is_over/PO/Ips_creator/src/main/Sources/zajecia.html");
+                    pathToSrc + "/src/main/Sources/zajecia.html");
 
             //znalezienie prowadzącego
             String data = hf.searchForOccurenceLineDelay("Prowadzący", 3);
@@ -74,4 +80,6 @@ public class TypZajec {
         }
         return sb.toString();
     }
+
 }
+

@@ -1,8 +1,13 @@
+package DataClass;
+
+import DataClass.Przedmiot;
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class WszystkiePrzedmioty {
-    private List<Przedmiot> przedmioty;
+    @Getter private List<Przedmiot> przedmioty;
     private int liczbaPrzedmiotow;
 
     public WszystkiePrzedmioty(){

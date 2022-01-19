@@ -1,3 +1,5 @@
+package Backend;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.sling.commons.json.JSONException;
@@ -16,7 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class HtmlFile {
+public class HtmlFile implements Sciezka{
     private String dataLine;
     private String url;
     private String filename;
@@ -29,7 +31,7 @@ public class HtmlFile {
     public static void main(String[] args) throws IOException{
         HtmlFile Obj = new HtmlFile
                 ("https://usosweb.uw.edu.pl/kontroler.php?_action=katalog2/przedmioty/pokazPrzedmiot&prz_kod=1000-112bAM2a",
-                        "/home/adminq/GitHub/Playtime_is_over/PO/Ips_creator/src/main/Sources/source.html");
+                        pathToSrc + "/src/main/Sources/source.html");
 
     }
 
@@ -238,7 +240,7 @@ public class HtmlFile {
 
     public void stringListToFile(List<String> list, String filename) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("/home/adminq/GitHub/Playtime_is_over/PO/Ips_creator/src/main/Sources/" + filename));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(pathToSrc + "/src/main/Sources/" + filename));
             for(String s : list)
                 writer.write(s + "\n");
             writer.close();

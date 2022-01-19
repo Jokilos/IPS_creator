@@ -1,10 +1,11 @@
+package Backend;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.Objects;
 import java.util.Set;
 
-public class ZbierzRejestracje {
+public class ZbierzRejestracje implements Sciezka{
 
     public final String URL_Rejestracji = "https://usosweb.uw.edu.pl/kontroler.php?_action=news/rejestracje/rejJednostki&jed_org_kod=";
     public final String URL_StronyKodow = "https://usosweb.uw.edu.pl/kontroler.php?_action=katalog2/przedmioty/szukajPrzedmiotu&method=rej&rej_kod=";
@@ -29,7 +30,7 @@ public class ZbierzRejestracje {
 
         try {
             HtmlFile hf = new HtmlFile("https://usosweb.uw.edu.pl/kontroler.php?_action=news/rejestracje/index",
-                    "/home/adminq/GitHub/Playtime_is_over/PO/Ips_creator/src/main/Sources/kody_rej.html");
+                    pathToSrc + "/src/main/Sources/kody_rej.html");
 
             ArrayList<String> kodyStronKodow = hf.searchForOccurences("jed_org_kod=\\d+", false);
 
@@ -39,7 +40,7 @@ public class ZbierzRejestracje {
 
             for(String s : kodyStronKodow){ // strony .uw.
                 hf.changeURL(this.URL_Rejestracji + s,
-                        "/home/adminq/GitHub/Playtime_is_over/PO/Ips_creator/src/main/Sources/strona_rej.html");
+                        pathToSrc + "/src/main/Sources/strona_rej.html");
                 //System.out.println(s);
                 kodyRejestracjiTemp = hf.searchForOccurences("rej_kod=[" + hf.special + hf.pl + "\\d]+[&']", false);
                 kodyRejestracjiTemp.replaceAll(st -> hf.groupPatternFinder(st, "rej_kod=([" + hf.special + hf.pl + "\\d]+)[&']", 1, 0));
@@ -50,7 +51,7 @@ public class ZbierzRejestracje {
 
             for(int i = 0; i < kodyStronKodowSpec.size(); i++){ // strony niestandardowe np .mimuw.
                 hf.changeURL("https://usosweb." + inneStrony[i] + ".edu.pl/kontroler.php?_action=news/rejestracje/rejJednostki&jed_org_kod=" + kodyStronKodowSpec.get(i),
-                        "/home/adminq/GitHub/Playtime_is_over/PO/Ips_creator/src/main/Sources/strona_rej.html");
+                        pathToSrc + "/src/main/Sources/strona_rej.html");
                 //System.out.println(kodyStronKodowSpec.get(i));
                 kodyRejestracjiTemp = hf.searchForOccurences("rej_kod=[" + hf.special + hf.pl + "\\d]+[&']", false);
                 kodyRejestracjiTemp.replaceAll(st -> hf.groupPatternFinder(st, "rej_kod=([" + hf.special + hf.pl + "\\d]+)[&']", 1, 0));
@@ -82,7 +83,7 @@ public class ZbierzRejestracje {
         HtmlFile hf = new HtmlFile();
         try{
             for(String s : regCodes){
-                hf.changeURL(URL_StronyKodow + s + showAll, "/home/adminq/GitHub/Playtime_is_over/PO/Ips_creator/src/main/Sources/kody.html");
+                hf.changeURL(URL_StronyKodow + s + showAll, pathToSrc + "/src/main/Sources/kody.html");
                 classCodesTemp = hf.searchForOccurencesWithLineDelay("<td style='vertical-align:middle' >", 1);
                 for(String kod : classCodesTemp) {
                     //System.out.println(kod.trim());

@@ -1,3 +1,7 @@
+package DataClass;
+
+import Backend.HtmlFile;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +27,7 @@ public class Grupa {
 
     @Override
     public String toString(){
-        return "Grupa nr." + id_grupy + " \n" + "Prowadzący:" + prowadzacy + "\n" + zajeciaToString();
+        return "DataClass.Grupa nr." + id_grupy + " \n" + "Prowadzący:" + prowadzacy + "\n" + zajeciaToString();
     }
 
     public String zajeciaToString(){
