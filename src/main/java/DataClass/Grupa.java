@@ -9,6 +9,16 @@ public class Grupa {
     private int id_grupy;
     private String prowadzacy;
     private List<Zajecia> zajecia;
+    private static Grupa ston;
+
+    public static Grupa getInstance(){
+        if(ston == null){
+            ston = new Grupa();
+        }
+        return ston;
+    }
+
+    private Grupa(){}
 
     public Grupa(String prowadzacy, int id, HtmlFile hf){
         this.prowadzacy = prowadzacy;

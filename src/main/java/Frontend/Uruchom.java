@@ -1,10 +1,12 @@
 package Frontend;
 
+import Backend.ListSwapper;
 import Backend.PosortujPoKodzie;
 import Backend.Sciezka;
 import DataClass.*;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
+import kotlin.Pair;
 
 
 import java.io.*;
@@ -89,22 +91,42 @@ public class Uruchom implements Sciezka {
         ArrayList<ArrayList<Integer>> lista_perm = new ArrayList<>();
 
         for(Przedmiot p : wybranePrzedmioty){
+
             System.out.println("Ustal preferencje grup dla przedmiotu: " + p.getNazwaPrzedmiotu());
             for(TypZajec tz : p.getTypyZajec()){
-                boolean zbierajPreferencje = true;
-                int indeks = 0;
 
-                for(int i = 0; i < tz.getGrupy().size() && zbierajPreferencje; i++){
-
-                    if(i == 0)
-                        indeks = wczytajLiczbę("Podaj nr grupy o najwyższym priorytecie:");
-                    else
-                        indeks = wczytajLiczbę("Podaj nr grupy o priorytecie " + i + ":");
-                    //swap
-                    //zmianaKolejnosci(tz, i, indeks);
-                }
             }
         }
+    }
+
+    public <T, L extends List<T>>
+    void ustawPreferencje(L list){
+        for(T elem : list){
+            System.out.println(elem);
+        }
+
+        ListSwapper ls = new ListSwapper(list.size());
+        boolean zbierajPreferencje = true;
+        int indeks = 0;
+
+        if ();
+        for(int i = 0; i < list.size() && zbierajPreferencje; i++){
+
+            if(i == 0)
+                indeks = wczytajLiczbę("Podaj nr grupy o najwyższym priorytecie:");
+            else
+                indeks = wczytajLiczbę("Podaj nr grupy o priorytecie " + i + ":");
+
+            Pair<Integer, Integer> zamien = ls.registerSingleSwap(i, indeks);
+            listSwap(list, zamien);
+        }
+    }
+
+    public static <E, L extends List<E>>
+    void listSwap(L list, Pair<Integer, Integer> swap){
+      E foo = list.get(swap.getFirst());
+      list.set(swap.getFirst(), list.get(swap.getSecond()));
+      list.set(swap.getSecond(), foo);
     }
 
     public Przedmiot szukajPrzedmiotu(String kodPrzedmiotu) throws ClassNotFoundException{
