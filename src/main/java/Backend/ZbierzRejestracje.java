@@ -2,6 +2,7 @@ package Backend;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ public class ZbierzRejestracje implements Sciezka{
     public final String URL_Rejestracji = "https://usosweb.uw.edu.pl/kontroler.php?_action=news/rejestracje/rejJednostki&jed_org_kod=";
     public final String URL_StronyKodow = "https://usosweb.uw.edu.pl/kontroler.php?_action=katalog2/przedmioty/szukajPrzedmiotu&method=rej&rej_kod=";
     public final String showAll = "&cp_showDescriptions=0&cp_showGroupsColumn=0&cp_cdydsDisplayLevel=2&f_tylkoWRejestracji=0&f_obcojezyczne=0&kierujNaPlanyGrupy=0&tabd59e_offset=0&tabd59e_limit=500&tabd59e_order=2a1a";
+    public final String findClassCode = "https://usosweb.mimuw.edu.pl/kontroler.php?_action=katalog2/przedmioty/pokazPrzedmiot&prz_kod=";
     public static void main(String[] args) {
         ZbierzRejestracje zr = new ZbierzRejestracje();
         zr.getClassCodes(zr.getRegistrationCodes());
@@ -26,8 +28,6 @@ public class ZbierzRejestracje implements Sciezka{
         kodyStronKodowSpec.add("21000000");
         kodyStronKodowSpec.add("24000000");
 
-
-
         try {
             HtmlFile hf = new HtmlFile("https://usosweb.uw.edu.pl/kontroler.php?_action=news/rejestracje/index",
                     pathToSrc + "/src/main/Sources/kody_rej.html");
@@ -41,10 +41,10 @@ public class ZbierzRejestracje implements Sciezka{
             for(String s : kodyStronKodow){ // strony .uw.
                 hf.changeURL(this.URL_Rejestracji + s,
                         pathToSrc + "/src/main/Sources/strona_rej.html");
-                //System.out.println(s);
+                System.out.println(s);
                 kodyRejestracjiTemp = hf.searchForOccurences("rej_kod=[" + hf.special + hf.pl + "\\d]+[&']", false);
                 kodyRejestracjiTemp.replaceAll(st -> hf.groupPatternFinder(st, "rej_kod=([" + hf.special + hf.pl + "\\d]+)[&']", 1, 0));
-                //System.out.println(kodyRejestracjiTemp);
+                System.out.println(kodyRejestracjiTemp);
                 for(String kod : kodyRejestracjiTemp)
                     kodyRejestracji.add(kod);
             }
@@ -52,10 +52,10 @@ public class ZbierzRejestracje implements Sciezka{
             for(int i = 0; i < kodyStronKodowSpec.size(); i++){ // strony niestandardowe np .mimuw.
                 hf.changeURL("https://usosweb." + inneStrony[i] + ".edu.pl/kontroler.php?_action=news/rejestracje/rejJednostki&jed_org_kod=" + kodyStronKodowSpec.get(i),
                         pathToSrc + "/src/main/Sources/strona_rej.html");
-                //System.out.println(kodyStronKodowSpec.get(i));
+
                 kodyRejestracjiTemp = hf.searchForOccurences("rej_kod=[" + hf.special + hf.pl + "\\d]+[&']", false);
                 kodyRejestracjiTemp.replaceAll(st -> hf.groupPatternFinder(st, "rej_kod=([" + hf.special + hf.pl + "\\d]+)[&']", 1, 0));
-                //System.out.println(kodyRejestracjiTemp);
+
                 for(String kod : kodyRejestracjiTemp)
                     kodyRejestracji.add(kod);
             }
@@ -78,25 +78,26 @@ public class ZbierzRejestracje implements Sciezka{
     }
 
     public ArrayList<String> getClassCodes(ArrayList<String> regCodes){
+        Set<String> classCodesTemp = new HashSet<>();
         ArrayList<String> classCodes = new ArrayList<>();
-        ArrayList<String> classCodesTemp;
         HtmlFile hf = new HtmlFile();
+
         try{
             for(String s : regCodes){
                 hf.changeURL(URL_StronyKodow + s + showAll, pathToSrc + "/src/main/Sources/kody.html");
-                classCodesTemp = hf.searchForOccurencesWithLineDelay("<td style='vertical-align:middle' >", 1);
-                for(String kod : classCodesTemp) {
-                    //System.out.println(kod.trim());
-                    classCodes.add(kod.trim());
+                classCodes = hf.searchForOccurences("prz_kod=([" + hf.special + hf.pl + "\\d]+)[&']", false);
+                for(String kod : classCodes) {
+                    System.out.println(kod.substring("prz_kod=".length(), kod.length() - 1));
+                    classCodesTemp.add(kod.substring("prz_kod=".length(), kod.length() - 1));
                 }
-                System.out.println("Obecna liczba:" + classCodes.size());
+                System.out.println("Obecna liczba:" + classCodesTemp.size());
             }
-            Set<String> hs = new LinkedHashSet<String>();
-            hs.addAll(classCodes);
+
             classCodes.clear();
-            classCodes.addAll(hs);
-            System.out.println("kody" + classCodes.size());
+            classCodes.addAll(classCodesTemp);
+
             hf.stringListToFile(classCodes, "kodyPrzedmiotów");
+
             return classCodes;
         }
         catch(Exception e){

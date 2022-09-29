@@ -65,9 +65,8 @@ public class Przedmiot implements Sciezka {
 
         for (int kod : zajeciaGrupy.keySet()) {
             first = true;
-            System.out.println("Kod: " + kod);
+
             for(Integer grupa : zajeciaGrupy.get(kod)){
-                System.out.println("DataClass.Grupa: " + grupa);
                 if(first) {
                     tz = new TypZajec(kod, grupa);
                     first = false;

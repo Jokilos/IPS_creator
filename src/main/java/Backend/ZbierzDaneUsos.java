@@ -13,14 +13,9 @@ import java.util.*;
 
 public class ZbierzDaneUsos implements Sciezka{
     public static void main(String[] args){
-        //Backend.ZbierzRejestracje zb = new Backend.ZbierzRejestracje();
-        //zb.getClassCodes(zb.getRegistrationCodes());
         ArrayList<String> codes = codesFromFile();
-        List<String> codesSorted = codes.subList(1, codes.size());
-        Collections.sort(codesSorted);
-        System.out.println(codesSorted);
-        HtmlFile hf = new HtmlFile();
-        hf.stringListToFile(codesSorted, "kodyPrzedmiotów");
+        Collections.sort(codes);
+        System.out.println(codes);
         getJsonFiles(codes);
     }
 
@@ -55,7 +50,7 @@ public class ZbierzDaneUsos implements Sciezka{
         JsonAdapter<WszystkiePrzedmioty> ja = moshi.adapter(WszystkiePrzedmioty.class);
 
         String code = "";
-        String semestr = "2021Z";
+        String semestr = "2022Z";
         WszystkiePrzedmioty wp = new WszystkiePrzedmioty();
 
         for (int i = 0; i < codes.size(); i++) {
@@ -67,7 +62,7 @@ public class ZbierzDaneUsos implements Sciezka{
 
         try{
             JSONObject preetyjson = new JSONObject(ja.toJson(wp));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(pathToSrc + "/src/main/Sources/przedmioty/Baza.js"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(pathToSrc + "/src/main/Sources/Baza.json"));
             writer.write(preetyjson.toString(2));
             writer.close();
         }

@@ -1,5 +1,7 @@
 package Backend;
 
+import java.io.File;
+
 public interface Sciezka {
-    public String pathToSrc = "/home/adminq/Git/IPS_creator";
+    public String pathToSrc = new File("").getAbsolutePath();
 }

@@ -120,6 +120,7 @@ public class HtmlFile implements Sciezka{
         return "";
     }
 
+    //returns first group only i think
     public ArrayList<String> searchForOccurences(String regex, boolean firstOnly){
         File file = new File(this.filename);
         Pattern pattern = Pattern.compile(regex);

@@ -25,7 +25,7 @@ public class Uruchom implements Sciezka {
     public Uruchom(){
         try {
             Path baza =
-                    Paths.get(pathToSrc + "/src/main/Sources/przedmioty/Baza.js");
+                    Paths.get(pathToSrc + "/src/main/Sources/przedmioty/Baza.json");
             String json = Files.readString(baza);
 
             Moshi moshi = new Moshi.Builder().build();
@@ -99,28 +99,28 @@ public class Uruchom implements Sciezka {
         }
     }
 
-    public <T, L extends List<T>>
-    void ustawPreferencje(L list){
-        for(T elem : list){
-            System.out.println(elem);
-        }
-
-        ListSwapper ls = new ListSwapper(list.size());
-        boolean zbierajPreferencje = true;
-        int indeks = 0;
-
-        if ();
-        for(int i = 0; i < list.size() && zbierajPreferencje; i++){
-
-            if(i == 0)
-                indeks = wczytajLiczbę("Podaj nr grupy o najwyższym priorytecie:");
-            else
-                indeks = wczytajLiczbę("Podaj nr grupy o priorytecie " + i + ":");
-
-            Pair<Integer, Integer> zamien = ls.registerSingleSwap(i, indeks);
-            listSwap(list, zamien);
-        }
-    }
+//    public <T, L extends List<T>>
+//    void ustawPreferencje(L list){
+//        for(T elem : list){
+//            System.out.println(elem);
+//        }
+//
+//        ListSwapper ls = new ListSwapper(list.size());
+//        boolean zbierajPreferencje = true;
+//        int indeks = 0;
+//
+//        if ();
+//        for(int i = 0; i < list.size() && zbierajPreferencje; i++){
+//
+//            if(i == 0)
+//                indeks = wczytajLiczbę("Podaj nr grupy o najwyższym priorytecie:");
+//            else
+//                indeks = wczytajLiczbę("Podaj nr grupy o priorytecie " + i + ":");
+//
+//            Pair<Integer, Integer> zamien = ls.registerSingleSwap(i, indeks);
+//            listSwap(list, zamien);
+//        }
+//    }
 
     public static <E, L extends List<E>>
     void listSwap(L list, Pair<Integer, Integer> swap){
